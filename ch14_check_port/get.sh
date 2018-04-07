@@ -1,18 +1,18 @@
 #!/bin/bash
 
 socket=`ss -tulnp4 "sport = :$1" | grep $1`
-echo $socket
 
 if [[ $? -eq 0 ]]; then
-    echo $socket | cut -d\" -f2 | which
-    echo $program
+    program=`echo $socket | cut -d\" -f2`
 else
     echo "OFF"
+    exit 1
 fi
 
 
-if test $program; then
-    echo $program
+if test `which $program`; then
+    which $program
 else
     echo "Can't get the process name"
+    exit 2
 fi
